@@ -1,0 +1,6 @@
+.env
+__pycache__/
+*.pdf
+faiss_index/
+chroma_db/
+venv/

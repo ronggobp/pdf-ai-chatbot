@@ -1,4 +1,5 @@
 import os
+from .processor import load_and_split_pdfs
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma # UBAH INI: dari community ke langchain-chroma
@@ -23,14 +24,7 @@ def get_retriever():
     return None
 
 def process_pdfs(pdf_paths):
-    all_docs = []
-    for path in pdf_paths:
-        if os.path.exists(path):
-            loader = PyPDFLoader(path)
-            all_docs.extend(loader.load())
-    
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
-    splits = text_splitter.split_documents(all_docs)
+    splits = load_and_split_pdfs(pdf_paths) # Memanggil fungsi dari processor.py
     
     # Logika penambahan dokumen tetap sama, hanya class Chroma yang sekarang lebih cepat
     if os.path.exists(DB_DIR) and os.listdir(DB_DIR):
